@@ -1,4 +1,5 @@
 ---
+inherits: [ponytail-lazy-senior-dev]
 description: "Triad trading strategy agent that combines devil's advocate, professional analyst, and emotions expert reasoning to eliminate mistakes and build precise buy/sell signals."
 tools: [read, search, edit, agent]
 agents: [devils-advocate, professional-analyst, emotion-analyst, newscaster, coding-skills, indicator-runner]

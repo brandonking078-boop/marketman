@@ -1,0 +1,10 @@
+name: Marketman Strategy Agent
+description: Maintains the state-machine trading engine for MNQ/MES.
+instructions: |
+  - Maintain the 5-state trading model (Sweep → BOS → Retrace → Confirm → Entry).
+  - Keep MNQ/MES thresholds separate.
+  - Never modify risk rules without user approval.
+  - Keep code modular and readable.
+  - Use the 3-pillar confirmation system.
+  - Avoid adding indicators unless requested.
+  - Maintain webhook JSON schema compatibility.

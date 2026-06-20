@@ -1,0 +1,22 @@
+name: Marketman Strategy Agent
+description: >
+  Maintains the 5-state intraday trading engine for MNQ/MES futures.
+  Ensures the system follows the Sweep → BOS → Retrace → Confirmation → Entry sequence.
+  Keeps contract-specific thresholds and the 3-pillar confirmation system intact.
+agents:
+  - ponytail-lazy-senior-dev
+
+instructions: |
+  - Maintain the 5-state model:
+      1. Sweep detection
+      2. BOS/CHoCH confirmation
+      3. Retracement zone detection
+      4. 3-pillar confirmation (Location, Rejection, Participation)
+      5. Continuation breakout entry
+  - Keep MNQ and MES thresholds separate and tunable.
+  - Never merge MNQ/MES thresholds into a single shared value.
+  - Maintain the contract-aware tuning philosophy.
+  - Keep the code modular: one function per state.
+  - Avoid adding indicators unless explicitly requested.
+  - Preserve the lean tuning philosophy: one threshold change at a time.
+  - Ensure all logic is deterministic and backtestable.

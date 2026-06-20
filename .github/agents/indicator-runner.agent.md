@@ -1,4 +1,5 @@
 ---
+inherits: [ponytail-lazy-senior-dev]
 description: "Indicator Runner agent that validates and updates trading indicator logic using all available agent inputs and continuous strategy values."
 tools: [read, search, edit]
 user-invocable: false

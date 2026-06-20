@@ -1,4 +1,5 @@
 ---
+inherits: [ponytail-lazy-senior-dev]
 description: "Newscaster agent that receives market summaries, creates a bullish or bearish overview, and forwards the important considerations to reasoning agents."
 tools: [read, search, web, agent]
 agents: [market-scout]

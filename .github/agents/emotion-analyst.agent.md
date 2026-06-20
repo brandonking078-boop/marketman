@@ -1,4 +1,5 @@
 ---
+inherits: [ponytail-lazy-senior-dev]
 description: "Emotion Analyst trading agent that evaluates human reaction and emotional market behavior, then translates it into institution-like discipline."
 tools: [read, search]
 user-invocable: false

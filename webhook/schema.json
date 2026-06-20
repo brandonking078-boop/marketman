@@ -1,0 +1,307 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Marketman Webhook Alert Schema",
+  "description": "JSON schema for Marketman entry/exit/status alerts for webhook automation",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/EntryTrigger"
+    },
+    {
+      "$ref": "#/definitions/ExitTrigger"
+    },
+    {
+      "$ref": "#/definitions/StatusUpdate"
+    }
+  ],
+  "definitions": {
+    "EntryTrigger": {
+      "type": "object",
+      "title": "Entry Trigger Alert",
+      "properties": {
+        "event": {
+          "type": "string",
+          "enum": ["entry_trigger"],
+          "description": "Alert type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when alert fired"
+        },
+        "symbol": {
+          "type": "string",
+          "enum": ["MNQ", "MES"],
+          "description": "Contract identifier"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["LONG", "SHORT"],
+          "description": "Trade direction"
+        },
+        "entry_price": {
+          "type": "number",
+          "description": "Entry price (market or limit order)"
+        },
+        "stop_loss": {
+          "type": "number",
+          "description": "Stop-loss price"
+        },
+        "tp1_price": {
+          "type": "number",
+          "description": "Take-profit 1 price (1.75–2.0R target)"
+        },
+        "tp1_size": {
+          "type": "number",
+          "description": "TP1 exit size as fraction of position (e.g., 0.5 = 50%)"
+        },
+        "tp2_price": {
+          "type": "number",
+          "description": "Take-profit 2 price (2.5R+ target)"
+        },
+        "tp2_size": {
+          "type": "number",
+          "description": "TP2 exit size as fraction of position (e.g., 0.25 = 25%)"
+        },
+        "runner_trail": {
+          "type": "string",
+          "enum": ["ema20", "5m_swing", "breakeven"],
+          "description": "Runner exit strategy (remainder of position)"
+        },
+        "position_size": {
+          "type": "integer",
+          "description": "Number of contracts"
+        },
+        "risk_usd": {
+          "type": "number",
+          "description": "Dollar risk per trade"
+        },
+        "risk_percent": {
+          "type": "number",
+          "description": "Risk as % of account equity (e.g., 0.01 = 1%)"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["sweep_detected", "bos_confirmed", "retrace_complete", "confirmation_met", "continuation_breakout"],
+          "description": "State machine state at entry"
+        },
+        "confirmation_pillars": {
+          "type": "object",
+          "properties": {
+            "location": {
+              "type": "string",
+              "enum": ["vwap_sigma", "fvg", "order_block", "poc_val_vah", "ema_zone"],
+              "description": "Pillar 1: Price location in value zone"
+            },
+            "rejection": {
+              "type": "string",
+              "enum": ["rejection_wick", "engulfing", "micro_bos"],
+              "description": "Pillar 2: Rejection pattern"
+            },
+            "participation": {
+              "type": "string",
+              "enum": ["volume_spike", "vwap_reclaim", "ema_hold"],
+              "description": "Pillar 3: Participation/momentum"
+            }
+          },
+          "description": "3-pillar confirmation details"
+        },
+        "indicators": {
+          "type": "object",
+          "properties": {
+            "rsi": {
+              "type": "number",
+              "description": "RSI 14 value (0–100)"
+            },
+            "atr": {
+              "type": "number",
+              "description": "ATR 14 value"
+            },
+            "vwap": {
+              "type": "number",
+              "description": "Session VWAP price"
+            },
+            "ema20": {
+              "type": "number",
+              "description": "EMA 20 value"
+            },
+            "volume_sma20": {
+              "type": "number",
+              "description": "20-bar volume average"
+            }
+          },
+          "description": "Key indicator values at entry"
+        },
+        "session_phase": {
+          "type": "string",
+          "enum": ["open", "morning", "lunch", "pm_accum", "pm_trend"],
+          "description": "Market session phase"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Human-readable notes (e.g., reason, confluences)"
+        }
+      },
+      "required": [
+        "event",
+        "symbol",
+        "direction",
+        "entry_price",
+        "stop_loss",
+        "tp1_price",
+        "tp1_size",
+        "position_size",
+        "risk_usd",
+        "state",
+        "confirmation_pillars"
+      ]
+    },
+    "ExitTrigger": {
+      "type": "object",
+      "title": "Exit Trigger Alert",
+      "properties": {
+        "event": {
+          "type": "string",
+          "enum": ["exit_trigger"],
+          "description": "Alert type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when alert fired"
+        },
+        "symbol": {
+          "type": "string",
+          "enum": ["MNQ", "MES"],
+          "description": "Contract identifier"
+        },
+        "position_direction": {
+          "type": "string",
+          "enum": ["LONG", "SHORT"],
+          "description": "Direction of closed position"
+        },
+        "exit_price": {
+          "type": "number",
+          "description": "Exit price (market or limit)"
+        },
+        "entry_price": {
+          "type": "number",
+          "description": "Original entry price"
+        },
+        "exit_reason": {
+          "type": "string",
+          "enum": [
+            "tp1_hit",
+            "tp2_hit",
+            "runner_exit",
+            "stop_hit",
+            "dom_flip",
+            "delta_divergence",
+            "lunch_close",
+            "manual_close"
+          ],
+          "description": "Reason for exit"
+        },
+        "profit_loss_usd": {
+          "type": "number",
+          "description": "Realized P&L in dollars"
+        },
+        "profit_loss_percent": {
+          "type": "number",
+          "description": "Realized P&L as % of entry risk"
+        },
+        "contracts_closed": {
+          "type": "integer",
+          "description": "Number of contracts exited"
+        },
+        "contracts_remaining": {
+          "type": "integer",
+          "description": "Number of contracts still open (if partial exit)"
+        },
+        "exit_details": {
+          "type": "object",
+          "properties": {
+            "stop_hit": {
+              "type": "boolean"
+            },
+            "dom_flip_count": {
+              "type": "integer",
+              "description": "Bars of DOM bias flip if exit_reason is dom_flip"
+            },
+            "delta_divergence": {
+              "type": "boolean"
+            }
+          },
+          "description": "Additional exit condition details"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Human-readable notes"
+        }
+      },
+      "required": [
+        "event",
+        "symbol",
+        "position_direction",
+        "exit_price",
+        "entry_price",
+        "exit_reason",
+        "profit_loss_usd"
+      ]
+    },
+    "StatusUpdate": {
+      "type": "object",
+      "title": "Strategy Status Update",
+      "properties": {
+        "event": {
+          "type": "string",
+          "enum": ["status_update"],
+          "description": "Alert type identifier"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "symbol": {
+          "type": "string",
+          "enum": ["MNQ", "MES"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["flat", "long", "short", "daily_loss_limit_hit", "weekly_drawdown_hit"],
+          "description": "Current position status"
+        },
+        "account_metrics": {
+          "type": "object",
+          "properties": {
+            "account_balance": {
+              "type": "number"
+            },
+            "daily_pnl": {
+              "type": "number"
+            },
+            "daily_pnl_percent": {
+              "type": "number"
+            },
+            "trades_today": {
+              "type": "integer"
+            },
+            "wins_today": {
+              "type": "integer"
+            },
+            "losses_today": {
+              "type": "integer"
+            },
+            "weekly_pnl": {
+              "type": "number"
+            }
+          }
+        },
+        "comment": {
+          "type": "string"
+        }
+      },
+      "required": ["event", "symbol", "status"]
+    }
+  }
+}
