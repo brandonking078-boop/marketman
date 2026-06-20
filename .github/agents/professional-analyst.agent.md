@@ -1,4 +1,5 @@
 ---
+inherits: [ponytail-lazy-senior-dev]
 description: "Professional Analyst trading agent that uses all available resources, market facts, and cold logic to validate strategy quality."
 tools: [read, search]
 user-invocable: false

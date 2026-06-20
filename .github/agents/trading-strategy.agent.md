@@ -1,4 +1,5 @@
 ---
+inherits: [ponytail-lazy-senior-dev]
 name: trading-strategy
 description: "Custom trading strategy agent for NASDAQ-100 mini/micro and S&P 500 mini/micro using VWAP, EMA, TEMA, FVG/IFVG, order blocks, DOM structure, Bollinger Bands, RSI, volume, Fib levels, ICT/ORB, and news-aware buy/sell markers."
 keywords:

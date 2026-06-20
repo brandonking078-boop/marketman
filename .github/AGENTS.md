@@ -5,7 +5,7 @@ This workspace defines a set of custom agents for trading strategy development, 
 ## Custom Agents
 
 - `triad-trading.agent.md`
-  - Coordinates three specialist agents plus coding and indicator validation agents.
+  - Coordinates all specialist agents.
   - Purpose: produce disciplined buy/sell indicator logic by combining devil's advocate, professional analyst, and emotion analyst perspectives.
   - Uses: `devils-advocate`, `professional-analyst`, `emotion-analyst`, `coding-skills`, `indicator-runner`.
 

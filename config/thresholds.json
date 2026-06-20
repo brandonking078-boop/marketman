@@ -1,0 +1,128 @@
+{
+  "strategy": {
+    "name": "Marketman Intraday State Machine",
+    "version": "1.0",
+    "description": "Contract-specific thresholds for MNQ and MES"
+  },
+  "contracts": {
+    "MNQ": {
+      "description": "Nasdaq-100 Micro (E-Mini Micro)",
+      "tick_size": 0.25,
+      "tick_value": 0.5,
+      "point_value": 20,
+      "state_1_sweep": {
+        "sweep_points": 6,
+        "sweep_volume_multiplier": 1.3,
+        "delta_confirmation_bars": 1
+      },
+      "state_2_bos": {
+        "bos_points": 5,
+        "bos_momentum_bars": 2,
+        "bos_confirmation_bars": 3
+      },
+      "state_3_retrace": {
+        "retrace_range_percent": 0.003,
+        "retrace_fib_min": 0.25,
+        "retrace_fib_max": 0.65,
+        "volume_absorption_threshold": 1.1,
+        "vwap_sigma": 1.5
+      },
+      "state_4_confirmation": {
+        "location_required": true,
+        "rejection_required": true,
+        "participation_required": true,
+        "rsi_upper_normal": 70,
+        "rsi_lower_normal": 30,
+        "rsi_upper_low_vol": 60,
+        "rsi_lower_low_vol": 40
+      },
+      "state_5_entry": {
+        "bos_entry_points": 5,
+        "volume_entry_threshold": 1.0,
+        "stop_atr_multiplier": 1.1,
+        "profit_target_1r": 1.75,
+        "profit_target_2r": 2.5,
+        "runner_trail_ema": 20
+      }
+    },
+    "MES": {
+      "description": "S&P 500 Micro (E-Mini Micro)",
+      "tick_size": 0.25,
+      "tick_value": 5,
+      "point_value": 50,
+      "state_1_sweep": {
+        "sweep_points": 1.5,
+        "sweep_volume_multiplier": 1.2,
+        "delta_confirmation_bars": 1
+      },
+      "state_2_bos": {
+        "bos_points": 1.25,
+        "bos_momentum_bars": 2,
+        "bos_confirmation_bars": 3
+      },
+      "state_3_retrace": {
+        "retrace_range_percent": 0.0025,
+        "retrace_fib_min": 0.25,
+        "retrace_fib_max": 0.65,
+        "volume_absorption_threshold": 1.1,
+        "vwap_sigma": 1.25
+      },
+      "state_4_confirmation": {
+        "location_required": true,
+        "rejection_required": true,
+        "participation_required": true,
+        "rsi_upper_normal": 70,
+        "rsi_lower_normal": 30,
+        "rsi_upper_low_vol": 60,
+        "rsi_lower_low_vol": 40
+      },
+      "state_5_entry": {
+        "bos_entry_points": 1.25,
+        "volume_entry_threshold": 1.0,
+        "stop_atr_multiplier": 1.1,
+        "profit_target_1r": 1.75,
+        "profit_target_2r": 2.5,
+        "runner_trail_ema": 20
+      }
+    }
+  },
+  "risk_management": {
+    "account_risk_percent": 0.01,
+    "daily_loss_limit_percent": 0.02,
+    "max_losses_per_day": 3,
+    "weekly_drawdown_limit_percent": 0.05,
+    "min_position_contracts": 1
+  },
+  "session": {
+    "timezone": "America/New_York",
+    "ny_session": "0930-1600",
+    "lunch_session": "1130-1330",
+    "pm_session": "1530-1600",
+    "allowed_entry_phases": [
+      "open_phase",
+      "pm_trend_phase"
+    ],
+    "restricted_phases": [
+      "lunch"
+    ]
+  },
+  "indicators": {
+    "ema_short": 8,
+    "ema_medium": 20,
+    "ema_long": 50,
+    "rsi_period": 14,
+    "atr_period": 14,
+    "vwap_period": "session",
+    "volume_sma_period": 20,
+    "bollinger_period": 20,
+    "bollinger_std_dev": 2.0
+  },
+  "tuning_notes": {
+    "sweep_points": "Increase to filter false sweeps; decrease for sensitivity. MNQ=6, MES=1.5",
+    "bos_momentum_bars": "Raise to 3–4 for trending days; lower to 1–2 for choppy days",
+    "vwap_sigma": "MNQ prefers 1.5, MES prefers 1.25. Adjust for volatility regime",
+    "profit_target_1r": "1.75–2.0R standard. Raise to 2.5R+ in high-volatility days",
+    "daily_loss_limit": "Enforce strictly. Auto-reduce size or stop trading after –2% drawdown",
+    "session_phases": "Never enter during lunch (11:30–13:30 ET). Prefer 9:30–10:00 (open) or 14:30–16:00 (pm)"
+  }
+}

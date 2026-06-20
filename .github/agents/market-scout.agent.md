@@ -1,4 +1,5 @@
 ---
+inherits: [ponytail-lazy-senior-dev]
 description: "Market Scout agent that continuously searches for market-related information based on names present in the workspace and builds a summary feed for the Newscaster agent."
 tools: [read, search, web]
 user-invocable: false
