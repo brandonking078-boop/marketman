@@ -1,6 +1,5 @@
 ---
 inherits: [ponytail-lazy-senior-dev]
-inherits: [ponytail-lazy-senior-dev]
 name: coding-skills
 description: "Coding Skills agent that applies coding best practices, the workspace copilot instructions, and relevant skills to implement and revise trading strategy code."
 agents:
